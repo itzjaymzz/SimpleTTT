@@ -7,19 +7,20 @@ using namespace std;
 //}
 
 void print_board(int){
-	vector<string> boardrowA ={"-", "-", "-"};
-	vector<string> boardrowB ={"-", "-", "-"};
-	vector<string> boardrowC ={"-", "-", "-"};
+	string board[3][3] = {
+	{--, --, --}, 
+	{--, --, --}, 
+	{--, --, --}}; 
 	cout << "A \t";
-	for(auto i : boardrowA){
+	for(auto i : board[0]){
 		cout << i << "\t";
 	}
 	cout << endl << "B \t";
-	for(auto i : boardrowB){
+	for(auto i : board[1]){
 		cout << i << "\t";
 	}
 	cout << endl << "C \t";
-	for(auto i : boardrowC){
+	for(auto i : board[2]){
 		cout << i << "\t";
 	}
 	cout << endl;
@@ -28,13 +29,12 @@ void print_board(int){
 
 
 int main() {
-	vector<string> copyboardrowA ={"-", "-", "-"};
-	vector<string> copyboardrowB ={"-", "-", "-"};
-	vector<string> copyboardrowC ={"-", "-", "-"};
+	string copyboard[3][3]{
+	{--, --, --},
+	{--, --, --},
+	{--, --, --}};	
 	printf("Hello! Welcome to the Tic-Tac-Toe Game! \n");
-	figlet("Hello");
 	print_board(1);
-	int counter = 1;
 	string choicerow;
 	int choicecollumn;
 	printf("For Move #%d what row would you like to go?(Capital Letters) \n", counter);
