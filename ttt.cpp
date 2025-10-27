@@ -13,14 +13,26 @@ using namespace std;
 
 //Prints the board thats all it does rn
 void print_board(vector<string> pos){  
-	printf("\t1  \t2  \t3  \n\n"
-	"A\t %s \t%s \t%s\n", 
-	"B\t %s \t%s \t%s\n", 
-	"C\t %s \t%s \t%s\n", 
+	printf("\t1\t2\t3  \n\n"
+	"A\t%s \t%s \t%s\n\n" 
+	"B\t%s \t%s \t%s\n\n" 
+	"C\t%s \t%s \t%s\n\n", 
 	pos[0].c_str(), pos[1].c_str(), pos[2].c_str(),  
-	pos[3].c_str(), pos[3].c_str(), pos[5].c_str(),  
+	pos[3].c_str(), pos[4].c_str(), pos[5].c_str(),  
 	pos[6].c_str(), pos[7].c_str(), pos[8].c_str());
 }
+
+int translate_move(string choice) {
+	if (choice.length() != 2){
+		throw runtime_error("Erm I don't think thats a valid move try again");
+	}
+	if ((string)choice[0] != "A" || (string)choice[0] != "B"|| (string)choice[0] != "C"){
+		throw runtime_error("Erm I don't think thats a valid move try again");
+		
+	}	 
+	
+}
+
 
 //Makes a copy of the board for movs that are made
 int main() {
