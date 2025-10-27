@@ -13,16 +13,21 @@ using namespace std;
 
 //Prints the board thats all it does rn
 void print_board(vector<string> pos){  
-	printf("\t1 \t2 \t3 \n"
-	"A\t %s \t%s \t%s\n", (string)pos[0], (string)pos[1], (string)pos[2], 
-	(string)pos[3], (string)pos[4], (string)pos[5], 
-	(string)pos[6], (string)pos[7], (string)pos[8], );
+	printf("\t1  \t2  \t3  \n\n"
+	"A\t %s \t%s \t%s\n", 
+	"B\t %s \t%s \t%s\n", 
+	"C\t %s \t%s \t%s\n", 
+	pos[0].c_str(), pos[1].c_str(), pos[2].c_str(),  
+	pos[3].c_str(), pos[3].c_str(), pos[5].c_str(),  
+	pos[6].c_str(), pos[7].c_str(), pos[8].c_str());
 }
 
 //Makes a copy of the board for movs that are made
 int main() {
 	vector<string> board{
-		"--", "--", "--", "--", "--", "--", "--",
+		"--", "--", "--", 
+		"--", "--", "--", 
+		"--", "--", "--"
 	};
 	printf("Hello! Welcome to the Tic-Tac-Toe Game! \n");
 	print_board(board);
