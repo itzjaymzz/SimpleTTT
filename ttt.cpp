@@ -14,7 +14,9 @@ using namespace std;
 //Prints the board thats all it does rn
 void print_board(vector<string> pos){  
 	printf("\t1 \t2 \t3 \n"
-	"A\t %c \t%c \t%c\n", pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], pos[6], pos[7], pos[8]);
+	"A\t %s \t%s \t%s\n", (string)pos[0], (string)pos[1], (string)pos[2], 
+	(string)pos[3], (string)pos[4], (string)pos[5], 
+	(string)pos[6], (string)pos[7], (string)pos[8], );
 }
 
 //Makes a copy of the board for movs that are made
