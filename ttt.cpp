@@ -30,7 +30,7 @@ int translate_move(string choice) {
 	if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
 		throw runtime_error("Erm I don't think thats a valid move try again");
 	}
-	if (choice[1] < 1 || choice [1] > 3){
+	if (choice[1] < '1' || choice [1] > '3'){
 		throw runtime_error("Erm I don't think thats a valid move try again");		
 		
 	}	 
