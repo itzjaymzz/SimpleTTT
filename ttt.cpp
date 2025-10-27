@@ -3,6 +3,7 @@
 //Simple Tic Tac Toe Game
 #include <vector>
 #include <iostream>
+#include <stdexcept>
 using namespace std;
 
 
@@ -26,11 +27,26 @@ int translate_move(string choice) {
 	if (choice.length() != 2){
 		throw runtime_error("Erm I don't think thats a valid move try again");
 	}
-	if ((string)choice[0] != "A" || (string)choice[0] != "B"|| (string)choice[0] != "C"){
+	if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
 		throw runtime_error("Erm I don't think thats a valid move try again");
+	}
+	if (choice[1] < 1 || choice [1] > 3){
+		throw runtime_error("Erm I don't think thats a valid move try again");		
 		
 	}	 
-	
+	char row = toupper(choice[0]);
+	int collumn = choice[1] - 0;
+	int index = -1;
+	if(row == 'A'){
+		index = 0;
+	}
+	else if(row == 'B'){
+		index = 3;
+	}
+	else if(row == 'C'){
+		index = 6;
+	}
+	return index + (collumn -1);
 }
 
 
@@ -46,7 +62,14 @@ int main() {
 	string userchoice;
 	printf("For this move where would you like to go? \n");
 	cin >> userchoice;
-
+	int index = translate_move(userchoice);
+	if(board[index] != "--"){
+		throw runtime_error("Erm idk if thats a valid move lil bro");
+	} else {
+		board[index] = "*";
+		print_board(board);
+	}	
+	
 
 	return 0;
 }
