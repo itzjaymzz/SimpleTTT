@@ -7,11 +7,28 @@
 using namespace std;
 
 
-//Returns true or false based on win or not win
-//bool wincheck() {
-//	return true;
-//}
-
+char wincheck(const vector<string> board) {
+    // 1. Check Rows
+    for (int i = 0; i < 9; i += 3) {
+        if (board[i] != "--" && board[i] == board[i+1] && board[i] == board[i+2]){
+        	 return board[];
+        } 
+    }
+    // 2. Check Columns
+    for (int i = 0; i < 3; ++i) {
+        if (board[i] != "--" && board[i] == board[i+3] && board[i] == board[i+6]){ 
+        	return false;
+        }	
+    }
+    // 3. Check Diagonals
+    if (board[0] != "--" && board[0] == board[4] && board[0] == board[8]) {
+    	return false;
+    }	
+    if (board[2] != "--" && board[2] == board[4] && board[2] == board[6]) {
+    return false;
+    }
+    return true;
+}
 //Prints the board thats all it does rn
 void print_board(vector<string> pos){  
 	printf("\t1\t2\t3  \n\n"
@@ -25,17 +42,16 @@ void print_board(vector<string> pos){
 
 int translate_move(string choice) {
 	if (choice.length() != 2){
-		throw runtime_error("Erm I don't think thats a valid move try again");
+		printf("Erm I don't think thats a valid move try again\n");
 	}
 	if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
-		throw runtime_error("Erm I don't think thats a valid move try again");
+		printf("Erm I don't think thats a valid move try again\n");
 	}
 	if (choice[1] < '1' || choice [1] > '3'){
-		throw runtime_error("Erm I don't think thats a valid move try again");		
-		
+		printf("Erm I don't think thats a valid move try again\n");				
 	}	 
 	char row = toupper(choice[0]);
-	int collumn = choice[1] - 0;
+	int collumn = choice[1] - '0';
 	int index = -1;
 	if(row == 'A'){
 		index = 0;
@@ -57,19 +73,38 @@ int main() {
 		"--", "--", "--", 
 		"--", "--", "--"
 	};
-	printf("Hello! Welcome to the Tic-Tac-Toe Game! \n");
+	cout << "========================"
+	"===============================================" << endl;
+	cout << "####### #######  ###### "
+	"####### #######  ###### ####### ####### #######" << endl;
+	cout << "   #       #    #       "
+	"   #    #     # #          #    #     # #      " << endl;
+	cout << "   #       #    #       "
+	"   #    ####### #          #    #     # #######" << endl;
+	cout << "   #       #    #       "
+	"   #    #     # #          #    #     # #      " << endl;
+	cout << "   #    #######  ###### "
+	"   #    #     #  ######    #    ####### #######" << endl;
+	cout << "========================"
+	"===============================================" << endl;
 	print_board(board);
+	int counter = 1;
 	string userchoice;
-	printf("For this move where would you like to go? \n");
-	cin >> userchoice;
-	int index = translate_move(userchoice);
-	if(board[index] != "--"){
-		throw runtime_error("Erm idk if thats a valid move lil bro");
-	} else {
-		board[index] = "*";
-		print_board(board);
-	}	
-	
+	while(wincheck(board)){
+		printf("For move #%d where would you like to go? ", counter);
+		cin >> userchoice;
+		int index = translate_move(userchoice);
+		if(board[index] != "--"){
+			printf("Erm I don't think thats a valid move try again\n");
 
+		} else {
+			board[index] = "*";
+			print_board(board);
+		}	
+		counter++;
+	}
+	if(wincheck(board) == false){
+		printf("Someone lost!\n");
+	}
 	return 0;
 }
