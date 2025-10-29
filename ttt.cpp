@@ -31,20 +31,25 @@ string wincheck(const vector<string> board) {
 }
 
 int translate_move(string choice) {
-	if (choice.length() != 2){
-		throw runtime_error("Erm I don't think thats a valid move try again");
+	try {
+		if (choice.length() != 2){
+			throw runtime_error("Erm I don't think thats a valid move try again");
+		}
+		if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
+			throw runtime_error("Erm I don't think thats a valid move try again");
+		}
+		if (choice[1] < '1' || choice [1] > '3'){
+			throw runtime_error("Erm I don't think thats a valid move try again");				
+		}	 
 	}
-	if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
-		throw runtime_error("Erm I don't think thats a valid move try again");
+	catch(const runtime_error error){
+		return -1;
 	}
-	if (choice[1] < '1' || choice [1] > '3'){
-		throw runtime_error("Erm I don't think thats a valid move try again");				
-	}	 
 	char row = toupper(choice[0]);
 	int collumn = choice[1] - '0';
 	int index = -1;
 	if(row == 'A'){
-		index = 0;
+	index = 0;
 	}
 	else if(row == 'B'){
 		index = 3;
@@ -53,6 +58,7 @@ int translate_move(string choice) {
 		index = 6;
 	}
 	return index + (collumn -1);
+	
 }
 
 //Prints the board thats all it does rn
@@ -91,19 +97,22 @@ int main() {
 	print_board(board);
 	int counter = 1;
 	string userchoice;
+	int index = -1;
 	while(wincheck(board) == "A"){
-		printf("For move #%d where would you like to go? ", counter);
+		printf("For player - where would you like to go? ");
 		cin >> userchoice;
-		int index = translate_move(userchoice);
+		if (translate_move(userchoice) != -1){
+			int index = translate_move(userchoice);
+		}
 		if(board[index] != "--"){
 			printf("Erm I don't think thats a valid move try again\n");
-
 		} else {
 			board[index] = "*";
-			print_board(board);
+			counter++;
+		print_board(board);
 		}	
-		counter++;
 	}
+	cout << wincheck(board)<< endl;
 	if(wincheck(board) == "X"){
 		printf("O lost!\n");
 	}
