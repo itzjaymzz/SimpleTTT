@@ -1,6 +1,7 @@
 //James Cole & Isaac Sipma
 //October 27, 2025
 //Simple Tic Tac Toe Game
+#include <cstring>
 #include <vector>
 #include <iostream>
 #include <stdexcept>
@@ -98,8 +99,9 @@ int main() {
 	int counter = 1;
 	string userchoice;
 	int index = -1;
+	string player = "X";
 	while(wincheck(board) == "A"){
-		printf("For player - where would you like to go? ");
+		printf("For player %s where would you like to go? ", player.c_str());
 		cin >> userchoice;
 		if (translate_move(userchoice) != -1){
 			int index = translate_move(userchoice);
@@ -107,9 +109,10 @@ int main() {
 		if(board[index] != "--"){
 			printf("Erm I don't think thats a valid move try again\n");
 		} else {
-			board[index] = "*";
+			board[index] = player;
 			counter++;
 		print_board(board);
+	    player = (player == "X") ? "O" : "X";
 		}	
 	}
 	cout << wincheck(board)<< endl;
