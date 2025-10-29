@@ -98,13 +98,14 @@ int main() {
 	print_board(board);
 	int counter = 1;
 	string userchoice;
-	int index = -1;
 	string player = "X";
 	while(wincheck(board) == "A"){
 		printf("For player %s where would you like to go? ", player.c_str());
 		cin >> userchoice;
-		if (translate_move(userchoice) != -1){
-			int index = translate_move(userchoice);
+		int index = translate_move(userchoice);
+		if (index == -1){
+			printf("Erm I don't think thats a valid move try again\n");
+			continue;
 		}
 		if(board[index] != "--"){
 			printf("Erm I don't think thats a valid move try again\n");
@@ -115,12 +116,11 @@ int main() {
 	    player = (player == "X") ? "O" : "X";
 		}	
 	}
-	cout << wincheck(board)<< endl;
 	if(wincheck(board) == "X"){
-		printf("O lost!\n");
+		printf("X Won!\n");
 	}
 	if(wincheck(board) == "O"){
-		printf("X lost!\n");
+		printf("O Won!\n");
 	}
 
 	return 0;
