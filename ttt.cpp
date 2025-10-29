@@ -64,10 +64,13 @@ int translate_move(string choice) {
 
 //Prints the board thats all it does rn
 void print_board(vector<string> pos){  
-	printf("\t1\t2\t3  \n\n"
-	"A\t%s \t%s \t%s\n\n" 
-	"B\t%s \t%s \t%s\n\n" 
-	"C\t%s \t%s \t%s\n\n", 
+	printf("\t1\t|\t2\t|\t3\t  \n\n"
+	"-------------------------------------------------\n"
+	"A\t%s\t| \t%s\t| \t%s\n\n" 
+	"-------------------------------------------------\n"
+	"B\t%s\t| \t%s\t| \t%s\n\n" 
+	"-------------------------------------------------\n"
+	"C\t%s\t| \t%s\t| \t%s\n\n", 
 	pos[0].c_str(), pos[1].c_str(), pos[2].c_str(),  
 	pos[3].c_str(), pos[4].c_str(), pos[5].c_str(),  
 	pos[6].c_str(), pos[7].c_str(), pos[8].c_str());
