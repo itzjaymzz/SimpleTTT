@@ -7,21 +7,23 @@
 #include <stdexcept>
 using namespace std;
 
-
+//Wincheck function gets passed the game board and determines win based
+//on vertical, diagonal, and horizontal, returns A if no winner yet and X/O
+//based on the winner
 string wincheck(const vector<string> board) {
-    // 1. Check Rows
+    //Checks Rows
     for (int i = 0; i < 9; i += 3) {
         if (board[i] != "--" && board[i] == board[i+1] && board[i] == board[i+2]){
         	 return board[i];
         } 
     }
-    // 2. Check Columns
+    //Check Collumns
     for (int i = 0; i < 3; ++i) {
         if (board[i] != "--" && board[i] == board[i+3] && board[i] == board[i+6]){ 
         	return board[i];
         }	
     }
-    // 3. Check Diagonals
+    //Check Diagonals
     if (board[0] != "--" && board[0] == board[4] && board[0] == board[8]) {
     	return board[0];
     }	
@@ -31,59 +33,72 @@ string wincheck(const vector<string> board) {
     return "A";
 }
 
+//Translates the player move into numbers and then 
+//said numbers into the matching index also handles most "bad" input
 int translate_move(string choice) {
+	//try block to get runtime errors wihout crashing game
 	try {
+		//Makes sure it follows A2 or C1 format of 2 characters
 		if (choice.length() != 2){
 			throw runtime_error("Erm I don't think thats a valid move try again");
 		}
-		if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'){
+		//Makes sure its only A/a B/b or C/c		
+		if (choice[0] != 'A' && choice[0] != 'B' && choice[0] != 'C'
+		&& choice[0] != 'a' && choice[0] != 'b' && choice[0] != 'c'){
 			throw runtime_error("Erm I don't think thats a valid move try again");
 		}
+		//Makes sure its on the board 1, 2 or 3
 		if (choice[1] < '1' || choice [1] > '3'){
 			throw runtime_error("Erm I don't think thats a valid move try again");				
 		}	 
 	}
-	catch(const runtime_error error){
+	//catchs and prints the errors instead of booting you out of the game
+	catch(const runtime_error error){ 
 		return -1;
 	}
+
+	//splits player input into letter and number
 	char row = toupper(choice[0]);
 	int collumn = choice[1] - '0';
 	int index = -1;
-	if(row == 'A'){
+	//sets letter to index number
+	if(row == 'A'| row == 'a'){
 	index = 0;
 	}
-	else if(row == 'B'){
+	else if(row == 'B'|row == 'b'){
 		index = 3;
 	}
-	else if(row == 'C'){
+	else if(row == 'C'|row == 'c'){
 		index = 6;
 	}
+	//returns the index number for whatever move player just made
 	return index + (collumn -1);
 	
 }
 
-//Prints the board thats all it does rn
+//Prints the board by just printing every 
+//element in the vector + lines for looks
 void print_board(vector<string> pos){  
-	printf("\t1\t|\t2\t|\t3\t  \n\n"
-	"-------------------------------------------------\n"
+	printf("\t1\t \t2\t \t3\t  \n\n"
 	"A\t%s\t| \t%s\t| \t%s\n\n" 
-	"-------------------------------------------------\n"
+	"  ---------------------------------------------\n"
 	"B\t%s\t| \t%s\t| \t%s\n\n" 
-	"-------------------------------------------------\n"
+	"  ---------------------------------------------\n"
 	"C\t%s\t| \t%s\t| \t%s\n\n", 
 	pos[0].c_str(), pos[1].c_str(), pos[2].c_str(),  
 	pos[3].c_str(), pos[4].c_str(), pos[5].c_str(),  
 	pos[6].c_str(), pos[7].c_str(), pos[8].c_str());
 }
 
-
-//Makes a copy of the board for movs that are made
+//main function where everything comes together
 int main() {
+	//1D vector containing just dashes for now
 	vector<string> board{
 		"--", "--", "--", 
 		"--", "--", "--", 
 		"--", "--", "--"
 	};
+	//some real nasty cout lines that just print TICTACTOE more pretty looking
 	cout << "========================"
 	"===============================================" << endl;
 	cout << "####### #######  ###### "
@@ -98,33 +113,65 @@ int main() {
 	"   #    #     #  ######    #    ####### #######" << endl;
 	cout << "========================"
 	"===============================================" << endl;
+	//call to brint board to print the empty board first
 	print_board(board);
+	//initializing most variables
 	int counter = 1;
 	string userchoice;
 	string player = "X";
+	//While loop that stays active so long as no one won 
+	//(A is the default return from wincheck)
 	while(wincheck(board) == "A"){
-		printf("For player %s where would you like to go? ", player.c_str());
+		printf("For player %s where would you like to go?(Eg; A1, or c2) ", player.c_str());
 		cin >> userchoice;
 		int index = translate_move(userchoice);
+		//if statement that makes sure the index isnt -1 (default return for movetranslator)
 		if (index == -1){
 			printf("Erm I don't think thats a valid move try again\n");
 			continue;
+		//if statement that makessure that a space hasnt been taken already
 		}
 		if(board[index] != "--"){
 			printf("Erm I don't think thats a valid move try again\n");
+		//else handles most game input/output
 		} else {
+			//sets wherever the user pointed to to X or O
 			board[index] = player;
-			counter++;
-		print_board(board);
-	    player = (player == "X") ? "O" : "X";
+			//running counter of moves for draw check
+			counter++;			
+			//prints updated board after move
+			print_board(board);
+			//weird looking if else statement that sets X to O and O to X
+	    	player = (player == "X") ? "O" : "X";
+			//Draw check that makes sure that the game doesnt last more that 
+			//9 moves without the win status changing
+			if (counter > 9 && wincheck(board) == "A") {
+            	printf("It's a draw!\n");
+				return 0;
+			}
 		}	
 	}
+	//simple if statements that print the winner
 	if(wincheck(board) == "X"){
-		printf("X Won!\n");
+		cout << "===========================================================" << endl;
+		cout << "   #     #              #  #  # ####### #     # #######" << endl;
+		cout << "    #   #               #  #  #    #    ##    # #      " << endl;
+		cout << "     # #                #  #  #    #    # #   # ####### " << endl;
+		cout << "    #   #               #  #  #    #    #  #  #       #" << endl;
+		cout << "   #     #               ## ##  ####### #   ### #######" << endl;
+		cout << "===========================================================" << endl;
+	}
+	if(wincheck(board) == "O"){
+		cout << "===========================================================" << endl;
+		cout << "    #####               #  #  # ####### #     # #######" << endl;
+		cout << "   #     #              #  #  #    #    ##    # #      " << endl;
+		cout << "   #     #              #  #  #    #    # #   # ####### " << endl;
+		cout << "   #     #              #  #  #    #    #  #  #       #" << endl;
+		cout << "    #####                ## ##  ####### #   ### #######" << endl;
+		cout << "===========================================================" << endl;
 	}
 	if(wincheck(board) == "O"){
 		printf("O Won!\n");
 	}
-
 	return 0;
 }
