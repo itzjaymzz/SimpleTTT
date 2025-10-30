@@ -1,10 +1,11 @@
 //James Cole & Isaac Sipma
 //October 27, 2025
 //Simple Tic Tac Toe Game
-#include <cstring>
 #include <vector>
 #include <iostream>
 #include <stdexcept>
+#include <time.h> 
+#include <cstdlib>
 using namespace std;
 
 //Wincheck function gets passed the game board and determines win based
@@ -32,6 +33,12 @@ string wincheck(const vector<string> board) {
     }
     return "A";
 }
+
+int computer_move(){
+	int move = (rand() % 8) + 0;
+	return move;
+}
+
 
 //Translates the player move into numbers and then 
 //said numbers into the matching index also handles most "bad" input
@@ -113,43 +120,93 @@ int main() {
 	"   #    #     #  ######    #    ####### #######" << endl;
 	cout << "========================"
 	"===============================================" << endl;
-	//call to brint board to print the empty board first
-	print_board(board);
 	//initializing most variables
 	int counter = 1;
 	string userchoice;
 	string player = "X";
-	//While loop that stays active so long as no one won 
-	//(A is the default return from wincheck)
-	while(wincheck(board) == "A"){
-		printf("For player %s where would you like to go?(Eg; A1, or c2) ", player.c_str());
-		cin >> userchoice;
-		int index = translate_move(userchoice);
-		//if statement that makes sure the index isnt -1 (default return for movetranslator)
-		if (index == -1){
-			printf("Erm I don't think thats a valid move try again\n");
-			continue;
-		//if statement that makessure that a space hasnt been taken already
-		}
-		if(board[index] != "--"){
-			printf("Erm I don't think thats a valid move try again\n");
-		//else handles most game input/output
-		} else {
-			//sets wherever the user pointed to to X or O
-			board[index] = player;
-			//running counter of moves for draw check
-			counter++;			
-			//prints updated board after move
+	int gamechoice = -1;
+	cout << "Hello! Would you like to play"
+	"with a computer(1) or against a human(2): ";
+	cin >> gamechoice;
+	if(gamechoice == 2){	
+		//While loop that stays active so long as no one won 
+		//(A is the default return from wincheck)
+		while(wincheck(board) == "A"){
+			//call to brint board to print the empty board first
 			print_board(board);
-			//weird looking if else statement that sets X to O and O to X
-	    	player = (player == "X") ? "O" : "X";
-			//Draw check that makes sure that the game doesnt last more that 
-			//9 moves without the win status changing
-			if (counter > 9 && wincheck(board) == "A") {
-            	printf("It's a draw!\n");
-				return 0;
+			printf("For player %s where would you like to go?(Eg; A1, or c2) ", player.c_str());
+			cin >> userchoice;
+			int index = translate_move(userchoice);
+			//if statement that makes sure the index isnt -1 (default return for movetranslator)
+			if (index == -1){
+				printf("Erm I don't think thats a valid move try again\n");
+				continue;
+			//if statement that makessure that a space hasnt been taken already
 			}
-		}	
+			if(board[index] != "--"){
+				printf("Erm I don't think thats a valid move try again\n");
+			//else handles most game input/output
+			} else {
+				//sets wherever the user pointed to to X or O
+				board[index] = player;
+				//running counter of moves for draw check
+				counter++;			
+				//prints updated board after move
+				print_board(board);
+				printf("\n\n");
+				//weird looking if else statement that sets X to O and O to X
+		    	player = (player == "X") ? "O" : "X";
+				//Draw check that makes sure that the game doesnt last more that 
+				//9 moves without the win status changing
+				if (counter > 9 && wincheck(board) == "A") {
+	            	printf("It's a draw!\n");
+					return 0;
+				}
+			}	
+		}
+	}
+
+
+	if(gamechoice == 1){	
+		//While loop that stays active so long as no one won 
+		//(A is the default return from wincheck)
+		while(wincheck(board) == "A"){
+			//call to brint board to print the empty board first
+			print_board(board);
+			printf("Where would you like to go?(Eg; A1, or c2) ");
+			cin >> userchoice;
+			int index = translate_move(userchoice);
+			//if statement that makes sure the index isnt -1 (default return for movetranslator)
+			if (computer_move() == -1 && index == -1){
+				printf("Erm I don't think thats a valid move try again\n");
+				continue;
+			//if statements that makes sure that a space hasnt been taken already
+			}
+			if (board[computer_move()] != "--"){
+				continue;
+			}	
+			if (board[index] != "--") {
+				printf("Erm I don't think thats a valid move try again\n");
+				continue;
+			//else handles most game input/output
+			} else {
+				//sets wherever the user pointed to to X or O
+				board[index] = player;
+				//running counter of moves for draw check
+				counter++;			
+				//prints updated board after move
+				print_board(board);
+				printf("\n\n");
+				//inputs computer move
+				board[computer_move()] = "O";
+				//Draw check that makes sure that the game doesnt last more than 
+				//9 moves without the win status changing
+				if (counter > 9 && wincheck(board) == "A") {
+	            	printf("It's a draw!\n");
+					return 0;
+				}
+			}	
+		}
 	}
 	//simple if statements that print the winner
 	if(wincheck(board) == "X"){
