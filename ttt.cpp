@@ -34,12 +34,6 @@ string wincheck(const vector<string> board) {
     return "A";
 }
 
-int computer_move(){
-	int move = (rand() % 8) + 0;
-	return move;
-}
-
-
 //Translates the player move into numbers and then 
 //said numbers into the matching index also handles most "bad" input
 int translate_move(string choice) {
@@ -176,38 +170,35 @@ int main() {
 			printf("Where would you like to go?(Eg; A1, or c2) ");
 			cin >> userchoice;
 			int index = translate_move(userchoice);
-			int compmove = computer_move();
 			//if statement that makes sure the index isnt -1 (default return for movetranslator)
-			if (compmove == -1 && index == -1){
+			if (index == -1 || board[index] != "--"){
 				printf("Erm I don't think thats a valid move try again\n");
 				continue;
-			//if statements that makes sure that a space hasnt been taken already
 			}
-			if (board[compmove] != "--"){
-				continue;
-			}	
-			if (board[index] != "--") {
-				printf("Erm I don't think thats a valid move try again\n");
-				continue;
-			//else handles most game input/output
-			} else {
-				//sets wherever the user pointed to to X or O
-				board[index] = player;
-				//running counter of moves for draw check
-				counter++;			
-				//prints updated board after move
-				print_board(board);
-				printf("\n\n");
-				//inputs computer move
-				board[compmove] = "O";
-				//Draw check that makes sure that the game doesnt last more than 
-				//9 moves without the win status changing
-				if (counter > 9 && wincheck(board) == "A") {
-	            	printf("It's a draw!\n");
-					return 0;
-				}
-			}	
-		}
+			//sets an X wherever the user pointed to 
+			board[index] = "X";
+			counter++;
+			print_board(board);
+			printf("\n\n");
+			// Check for win/draw players move
+			if (wincheck(board) != "A") break;
+			if (counter >= 9) {
+			printf("It's a draw!\n");
+			break;
+			}
+			int comp_move = -1;
+			while(board[comp_move] != "--"){
+				comp_move = rand() % 9;
+			}
+			board[comp_move] = "O";
+			counter++;
+			// Check for win/draw players move
+			if (wincheck(board) != "A") break;
+			if (counter >= 9) {
+			printf("It's a draw!\n");
+			break;
+			}			
+		}	
 	}
 	//simple if statements that print the winner
 	if(wincheck(board) == "X"){
