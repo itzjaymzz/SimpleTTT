@@ -176,13 +176,14 @@ int main() {
 			printf("Where would you like to go?(Eg; A1, or c2) ");
 			cin >> userchoice;
 			int index = translate_move(userchoice);
+			int compmove = computer_move();
 			//if statement that makes sure the index isnt -1 (default return for movetranslator)
-			if (computer_move() == -1 && index == -1){
+			if (compmove == -1 && index == -1){
 				printf("Erm I don't think thats a valid move try again\n");
 				continue;
 			//if statements that makes sure that a space hasnt been taken already
 			}
-			if (board[computer_move()] != "--"){
+			if (board[compmove] != "--"){
 				continue;
 			}	
 			if (board[index] != "--") {
@@ -198,7 +199,7 @@ int main() {
 				print_board(board);
 				printf("\n\n");
 				//inputs computer move
-				board[computer_move()] = "O";
+				board[compmove] = "O";
 				//Draw check that makes sure that the game doesnt last more than 
 				//9 moves without the win status changing
 				if (counter > 9 && wincheck(board) == "A") {
