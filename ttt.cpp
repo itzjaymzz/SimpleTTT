@@ -63,13 +63,13 @@ int translate_move(string choice) {
 	int collumn = choice[1] - '0';
 	int index = -1;
 	//sets letter to index number
-	if(row == 'A'| row == 'a'){
+	if(row == 'A'|| row == 'a'){
 	index = 0;
 	}
-	else if(row == 'B'|row == 'b'){
+	else if(row == 'B'||row == 'b'){
 		index = 3;
 	}
-	else if(row == 'C'|row == 'c'){
+	else if(row == 'C'||row == 'c'){
 		index = 6;
 	}
 	//returns the index number for whatever move player just made
@@ -218,9 +218,6 @@ int main() {
 		cout << "   #     #              #  #  #    #    #  #  #       #" << endl;
 		cout << "    #####                ## ##  ####### #   ### #######" << endl;
 		cout << "===========================================================" << endl;
-	}
-	if(wincheck(board) == "O"){
-		printf("O Won!\n");
 	}
 	return 0;
 }
