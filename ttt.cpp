@@ -93,6 +93,7 @@ void print_board(vector<string> pos){
 
 //main function where everything comes together
 int main() {
+	srand(time(NULL));
 	//1D vector containing just dashes for now
 	vector<string> board{
 		"--", "--", "--", 
@@ -152,7 +153,7 @@ int main() {
 		    	player = (player == "X") ? "O" : "X";
 				//Draw check that makes sure that the game doesnt last more that 
 				//9 moves without the win status changing
-				if (counter > 9 && wincheck(board) == "A") {
+				if (counter >= 9 && wincheck(board) == "A") {
 	            	printf("It's a draw!\n");
 					return 0;
 				}
@@ -180,19 +181,21 @@ int main() {
 			counter++;
 			print_board(board);
 			printf("\n\n");
-			// Check for win/draw players move
+			// Check for win/draw after players move
 			if (wincheck(board) != "A") break;
 			if (counter >= 9) {
 			printf("It's a draw!\n");
 			break;
 			}
-			int comp_move = -1;
+			//i know this is undefined but everywhere said to do a do while loop and
+			// i said no
+			int comp_move=-1;
 			while(board[comp_move] != "--"){
 				comp_move = rand() % 9;
 			}
 			board[comp_move] = "O";
 			counter++;
-			// Check for win/draw players move
+			// Check for win/draw after computers move
 			if (wincheck(board) != "A") break;
 			if (counter >= 9) {
 			printf("It's a draw!\n");
